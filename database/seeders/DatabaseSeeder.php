@@ -3,7 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Users;
-use App\Models\Product; // Agregamos el modelo de Product
+use App\Models\Product;
+use App\Models\Review;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,5 +19,8 @@ class DatabaseSeeder extends Seeder
 
         // Crear productos de prueba
         Product::factory(10)->create(); // Crear 10 productos de prueba
+
+        // Crear Reseñas de prueba
+        Review::factory(25)->create(); // Crear 25 reseñas de prueba
     }
 }

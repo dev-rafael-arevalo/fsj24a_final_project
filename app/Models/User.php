@@ -46,4 +46,19 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    /**
+     * Relación con las reviews del usuario.
+     */
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    /**
+     * Calcular el promedio de valoraciones.
+     */
+    public function averageRating()
+    {
+        return $this->reviews()->avg('rating');
+    }
 }
