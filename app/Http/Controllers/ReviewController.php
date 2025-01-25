@@ -48,7 +48,7 @@ class ReviewController extends Controller
     public function index($productId)
     {
         $product = Product::findOrFail($productId);
-        $reviews = $product->reviews()->with('user:id,name')->get();
+        $reviews = $product->reviews()->get();
 
         return response()->json([
             'success' => true,
@@ -105,11 +105,21 @@ class ReviewController extends Controller
      *     )
      * )
      */
+
     public function store(Request $request, $productId)
     {
         $validatedData = $this->validateReview($request);
 
         $product = Product::findOrFail($productId);
+
+        // Verifica si el usuario ya ha reseñado este producto
+        $existingReview = $product->reviews()->where('user_id', Auth::id())->first();
+        if ($existingReview) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Ya has reseñado este producto.',
+            ], 400);
+        }
 
         $review = $product->reviews()->create([
             'user_id' => Auth::id(),
@@ -123,6 +133,7 @@ class ReviewController extends Controller
             'data' => $review,
         ], 201);
     }
+
 
     /**
      * Actualizar una reseña existente.

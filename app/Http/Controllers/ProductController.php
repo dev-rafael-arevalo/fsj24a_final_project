@@ -195,19 +195,23 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
+        // Intentamos encontrar el producto
         $product = Product::find($id);
 
         if (!$product) {
-            return $this->notFoundResponse('Producto no encontrado.');
+            return response()->json([
+                'success' => false,
+                'message' => 'Producto no encontrado.',
+            ], 404);
         }
 
+        // Eliminar el producto
         $product->delete();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Producto eliminado exitosamente.',
-        ]);
+        // Retornar 204 No Content después de eliminar
+        return response()->json([], 204);
     }
+
 
     private function validateProduct(Request $request, $isCreate = true)
     {

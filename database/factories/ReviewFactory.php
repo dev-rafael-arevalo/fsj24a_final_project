@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Product;
 use App\Models\Review;
-use App\Models\Users;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ReviewFactory extends Factory
@@ -25,7 +25,7 @@ class ReviewFactory extends Factory
     {
         return [
             'product_id' => Product::factory(), // Crea un producto relacionado
-            'user_id' => Users::factory(), // Crea un usuario relacionado
+            'user_id' => User::factory(), // Crea un usuario relacionado
             'rating' => $this->faker->numberBetween(1, 5), // Valor entre 1 y 5
             'comment' => $this->faker->sentence(), // Comentario ficticio
         ];
