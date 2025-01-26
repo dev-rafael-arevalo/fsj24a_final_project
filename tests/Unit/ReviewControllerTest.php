@@ -14,35 +14,39 @@ class ReviewControllerTest extends TestCase
     use RefreshDatabase;
 
     // Set up un usuario antes de cada prueba
-    protected function setUp(): void
+    public function setUp(): void
     {
         parent::setUp();
-
-        // Crear un usuario para la autenticación
-        $this->user = User::factory()->create();
+        $this->artisan('migrate');
     }
 
 
-    // Prueba para obtener todas las reseñas de un producto
     public function test_get_reviews_by_product()
-{
-    // Primero, creamos el producto
-    $product = Product::factory()->create();
+    {
+        // Crear usuario autenticado
+        $this->user = User::factory()->create();
 
-    // Luego, creamos las reseñas asociadas a ese producto
-    $reviews = Review::factory()->count(5)->create(['product_id' => $product->id]);
+        // Crear producto
+        $product = Product::factory()->create();
 
-    // Verifica las reseñas creadas para asegurarte de que sean 5
-    dd($reviews);  // Esto mostrará las reseñas creadas
+        // Crear 5 reseñas asociadas al producto
+        $reviews = Review::factory()->count(5)->create(['product_id' => $product->id]);
 
-    // Realizamos la solicitud GET para obtener las reseñas del producto
-    $response = $this->withHeaders([
-        'Authorization' => 'Bearer ' . $this->user->createToken('TestToken')->plainTextToken,
-    ])->getJson('/api/v1/products/' . $product->id . '/reviews');
+        // Verifica las reseñas creadas
+        $this->assertCount(5, $reviews);
 
-    // Verificamos que la respuesta tenga el código de estado 200 y que el número de reseñas sea 5
-    $response->assertStatus(200)
-             ->assertJsonCount(5);
-}
+        // Generar token de autenticación
+        $token = $this->user->createToken('TestToken')->plainTextToken;
+
+        // Realizar la solicitud GET para obtener las reseñas
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->getJson('/api/v1/products/' . $product->id . '/reviews');
+
+        // Validar respuesta
+        $response->assertStatus(200)
+                 ->assertJsonCount(5); // Asegura que hay 5 reseñas en la respuesta
+    }
+
 
 }

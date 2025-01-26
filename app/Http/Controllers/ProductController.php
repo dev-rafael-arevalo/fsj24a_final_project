@@ -35,15 +35,21 @@ class ProductController extends Controller
      *     )
      * )
      */
-    public function index()
+    public function index($productId)
     {
-        $products = Product::all();
+        // Obtener el producto por ID
+        $product = Product::findOrFail($productId);
 
+        // Cargar todas las reseñas asociadas al producto
+        $reviews = $product->reviews;
+
+        // Devolver las reseñas como JSON
         return response()->json([
             'success' => true,
-            'data' => $products,
-        ]);
+            'data' => $reviews,
+        ], 200);
     }
+
 
     /**
      * Crear un nuevo producto.
