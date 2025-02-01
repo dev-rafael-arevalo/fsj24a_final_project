@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Exception;
 use Carbon\Carbon;
 
 class UserController extends Controller
@@ -225,7 +226,12 @@ class UserController extends Controller
             ], 404);
         }
 
-        $validator = $this->validateUserData($request, $id);
+        // Validaciones dentro del método
+        $validator = Validator::make($request->all(), [
+            'name' => 'sometimes|string|max:255',
+            'email' => 'sometimes|email|unique:users,email,' . $id,
+            'password' => 'sometimes|string|min:8|confirmed',
+        ]);
 
         if ($validator->fails()) {
             return response()->json([
@@ -234,9 +240,11 @@ class UserController extends Controller
             ], 422);
         }
 
-        $user->update($request->only(['name', 'email']));
+        // Actualizar solo los campos proporcionados
+        $user->fill($request->only(['name', 'email']));
 
-        if ($request->has('password')) {
+        // Si se proporciona un nuevo password, lo actualiza
+        if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
         }
 
@@ -248,6 +256,7 @@ class UserController extends Controller
             'data' => $user,
         ]);
     }
+
 
     /**
      * @OA\Delete(
