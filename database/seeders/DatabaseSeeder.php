@@ -18,9 +18,9 @@ class DatabaseSeeder extends Seeder
         User::factory(10)->create();  // Crear 10 usuarios aleatorios
 
         // Crear productos de prueba
-        Product::factory(10)->create(); // Crear 10 productos de prueba
+        //Product::factory(10)->create(); // Crear 10 productos de prueba
 
         // Crear Reseñas de prueba
-        Review::factory(25)->create(); // Crear 25 reseñas de prueba
+        //SSReview::factory(25)->create(); // Crear 25 reseñas de prueba
     }
 }

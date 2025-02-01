@@ -84,7 +84,7 @@
         },
         "/v1/users": {
             "get": {
-                "summary": "Obtener todos los usuarios.",
+                "summary": "App\\Http\\Controllers\\UserController@index",
                 "description": "",
                 "deprecated": false,
                 "responses": {
@@ -124,7 +124,7 @@
         },
         "/v1/users/{id}": {
             "get": {
-                "summary": "Obtener un usuario espec\u00edfico.",
+                "summary": "App\\Http\\Controllers\\UserController@show",
                 "description": "",
                 "deprecated": false,
                 "responses": {
@@ -173,7 +173,7 @@
                 ]
             },
             "put": {
-                "summary": "Actualizar un usuario espec\u00edfico.",
+                "summary": "App\\Http\\Controllers\\UserController@update",
                 "description": "",
                 "deprecated": false,
                 "responses": {
@@ -222,7 +222,7 @@
                 ]
             },
             "delete": {
-                "summary": "Eliminar un usuario espec\u00edfico.",
+                "summary": "App\\Http\\Controllers\\UserController@destroy",
                 "description": "",
                 "deprecated": false,
                 "responses": {
@@ -273,7 +273,7 @@
         },
         "/v1/users-stats": {
             "get": {
-                "summary": "Obtener estad\u00edsticas de los usuarios.",
+                "summary": "App\\Http\\Controllers\\UserController@stats",
                 "description": "",
                 "deprecated": false,
                 "responses": {
@@ -845,45 +845,6 @@
                 ]
             },
             "User": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "name": {
-                        "type": "string"
-                    },
-                    "email": {
-                        "type": "string"
-                    },
-                    "email_verified_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "password": {
-                        "type": "string"
-                    },
-                    "remember_token": {
-                        "type": "string"
-                    },
-                    "created_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "updated_at": {
-                        "type": "string",
-                        "format": "date-time"
-                    }
-                },
-                "required": [
-                    "id",
-                    "name",
-                    "email",
-                    "password"
-                ]
-            },
-            "Users": {
                 "type": "object",
                 "properties": {
                     "id": {
