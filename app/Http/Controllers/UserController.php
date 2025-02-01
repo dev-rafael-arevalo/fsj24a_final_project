@@ -11,6 +11,32 @@ use Carbon\Carbon;
 
 class UserController extends Controller
 {
+
+        /**
+     * @OA\Get(
+     *     path="/api/users",
+     *     tags={"Users"},
+     *     summary="Obtener todos los usuarios.",
+     *     description="Devuelve una lista de todos los usuarios registrados en el sistema.",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de usuarios.",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/User")),
+     *         ),
+     *     ),
+     * )
+     */
+    public function index()
+    {
+        $users = User::all();
+
+        return response()->json([
+            'success' => true,
+            'data' => $users,
+        ]);
+    }
     /**
      * @OA\Post(
      *     path="/api/users",
@@ -100,32 +126,6 @@ class UserController extends Controller
                 'error' => $e->getMessage(),
             ], 500);
         }
-    }
-
-    /**
-     * @OA\Get(
-     *     path="/api/users",
-     *     tags={"Users"},
-     *     summary="Obtener todos los usuarios.",
-     *     description="Devuelve una lista de todos los usuarios registrados en el sistema.",
-     *     @OA\Response(
-     *         response=200,
-     *         description="Lista de usuarios.",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="success", type="boolean", example=true),
-     *             @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/User")),
-     *         ),
-     *     ),
-     * )
-     */
-    public function index()
-    {
-        $users = User::all();
-
-        return response()->json([
-            'success' => true,
-            'data' => $users,
-        ]);
     }
 
     /**
